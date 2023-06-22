@@ -6,45 +6,58 @@
 //
 
 import UIKit
+import CoreData
 
-class TableViewCell: UITableViewCell, UITextFieldDelegate{
+var itemArray = [Test]()
+var context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+var checkBox: [Bool] = []
+
+protocol TableViewCellProtocol {
+    func reload()
+}
+
+class TableViewCell: UITableViewCell, UITextFieldDelegate  {
     
     @IBOutlet var textfield: UITextField!
+    @IBOutlet var checkImage: UIButton!
     
-    var itemArray = [Test]()
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-
+    var delegate: TableViewCellProtocol?
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        print("abc")
+//        print("abc")
         // Initialization code
         textfield.delegate = self
-        textfield.addTarget(self, action: #selector(TableViewCell.textFieldDidChange(_:)), for: .editingChanged)
+//        loadItems()
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
-    @objc func textFieldDidChange(_ textField: UITextField) {
-        print("변화")
-    }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        print("끝")
-        textField.isUserInteractionEnabled = false
+//
+//        print("textFieldDidEndEditing:\(itemArray.count)")
+//        print("지우기 전 값 \(Test(context: context).text)")
+        context.reset()
         
-        let newItem = Test(context: self.context)
-        newItem.text = textField.text!
+        let newItem = Test(context: context)
+        if(textField.text == ""){
+            context.reset()
+            checkBox.removeLast()
+            itemArray.removeLast()
+            print("지운다")
+        } else {
+            newItem.text = textField.text!
+            itemArray[checkImage.tag] = newItem
+            saveItems()
+            print("저장한다ㅏㅏㅏㅏㅏ")
+        }
+//        print("reload시도")
         
-        self.itemArray.append(newItem)
-        
-        itemArray[currentRow].text = textField.text
-        
-        saveItems()
+        delegate?.reload()
         
     }
     
@@ -52,16 +65,39 @@ class TableViewCell: UITableViewCell, UITextFieldDelegate{
         return true
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        self.textfield.resignFirstResponder()
+    
+    
+    @IBAction func checkButtonClicked(_ sender: UIButton) {
+        let item = checkBox[checkImage.tag]
+        if item == false {
+            print("\(checkImage.tag): \(item)")
+            checkImage?.setImage(UIImage(systemName: "checkmark.square.fill"), for: .normal)
+            checkBox[checkImage.tag] = true
+        } else {
+//            print("안꽉채웠다")
+            checkImage?.setImage(UIImage(systemName: "checkmark.square"), for: .normal)
+            checkBox[checkImage.tag] = false
+        }
     }
+    
     
     func saveItems(){
         do {
             try context.save()
+            print("저장됐다")
         } catch {
             print("Error saveing data, \(error)")
+        }
+    }
+    
+    func loadItems(){
+        let request : NSFetchRequest<Test> = Test.fetchRequest()
+        do {
+            print("디버그1:\(itemArray.count)")
+            itemArray = try context.fetch(request)
+            print("디버그2:\(itemArray.count)")
+        } catch {
+            print("error \(error)")
         }
     }
 }

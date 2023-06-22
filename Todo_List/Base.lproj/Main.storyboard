@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ori" id="lf0-0t-bJd" customClass="TableViewCell" customModule="Todo_List" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleAspectFit" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ori" id="lf0-0t-bJd" customClass="TableViewCell" customModule="Todo_List" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="50" width="393" height="43.666667938232422"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lf0-0t-bJd" id="ACp-4N-6ld">
@@ -33,7 +33,7 @@
                     <navigationItem key="navigationItem" title="Root View Controller" id="d6A-US-q0h">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="9ji-al-lHA">
                             <connections>
-                                <action selector="addList:" destination="CnK-eC-DAf" id="8eV-y0-EJE"/>
+                                <action selector="addList:" destination="CnK-eC-DAf" id="kfp-6g-XpZ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
