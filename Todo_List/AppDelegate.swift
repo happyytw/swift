@@ -34,13 +34,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
-        let userDefaults = UserDefaults.standard
-        print("저장하기")
-        userDefaults.set(checkBox, forKey: "checkBox")
+
         
+        if itemArray.last?.text == "" {
+            itemArray.removeLast()
+            checkBox.removeLast()
+        }
         for i in checkBox {
             print(i)
         }
+        let userDefaults = UserDefaults.standard
+        print("저장하기")
+        userDefaults.set(checkBox, forKey: "checkBox")
     }
 
     // MARK: - Core Data stack

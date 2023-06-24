@@ -25,11 +25,7 @@ class TableViewCell: UITableViewCell, UITextFieldDelegate  {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-//        print("abc")
-        // Initialization code
         textfield.delegate = self
-//        loadItems()
-        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -38,9 +34,7 @@ class TableViewCell: UITableViewCell, UITextFieldDelegate  {
     
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-//
-//        print("textFieldDidEndEditing:\(itemArray.count)")
-//        print("지우기 전 값 \(Test(context: context).text)")
+
         context.reset()
         
         let newItem = Test(context: context)

@@ -10,10 +10,6 @@ import CoreData
 
 class TableViewController: UITableViewController, UITextFieldDelegate, TableViewCellProtocol {
     
-//    var itemArray = [Test]()
-//    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,10 +35,8 @@ class TableViewController: UITableViewController, UITextFieldDelegate, TableView
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ori", for: indexPath) as! TableViewCell
         cell.delegate = self
-//        let item = itemArray[indexPath.row]
         cell.textfield?.text = itemArray[indexPath.row].text
-//
-//        print("error1: checkBox[\(indexPath.row)] = \(checkBox[indexPath.row]), checked[\(checkBox[indexPath.row])]")
+
         let checked = checkBox[indexPath.row] // 눌렸는지 여부
         print("\(indexPath.row):\(checked)")
         if checked == true {
@@ -59,28 +53,28 @@ class TableViewController: UITableViewController, UITextFieldDelegate, TableView
 
         let item = checkBox[indexPath.row]
         if item == true {
-//            print("꽉채웠다")
             cell.checkImage?.setImage(UIImage(systemName: "checkmark.square.fill"), for: .normal)
             checkBox[indexPath.row] = false
         } else {
-//            print("안꽉채웠다")
             cell.checkImage?.setImage(UIImage(systemName: "checkmark.square"), for: .normal)
             checkBox[indexPath.row] = true
         }
         
         tableView.reloadData()
         
-//        saveItems()
-
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
     @IBAction func addList(_ sender: UIBarButtonItem) {
         let newItem = Test(context: context)
         newItem.text = ""
-        
-        itemArray.append(newItem)
-        checkBox.append(false)
+        if itemArray.last?.text != "" {
+            itemArray.append(newItem)
+            checkBox.append(false)
+        } else {
+            itemArray.removeLast()
+            checkBox.removeLast()
+        }
 //        saveItems()
         tableView.reloadData()
     }
